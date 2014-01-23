@@ -1,3 +1,5 @@
 topcoder.sublime-project
 topcoder.sublime-workspace
 *.class
+.DS_Store
+topcoderapp.jnlp
