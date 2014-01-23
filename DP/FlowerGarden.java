@@ -84,24 +84,38 @@ public class FlowerGarden{
 			int s=ord.size();
 			for(int j=0;j<s;j++){
 				if(Math.min(wilt[i],wilt[ord.get(j)])>= Math.max(bloom[i],bloom[ord.get(j)])){
-					if(height[i]<height[ord.get(j)]){
-						ord.add(j,i);
-						break;
-					} 
-				}else{
 					if(height[i]>height[ord.get(j)]){
 						ord.add(j,i);
 						break;
+							
+					} 
+				}else{
+					if(height[i]<height[ord.get(j)]){
+						ord.add(j,i);
+						for(;j>=0;--j){
+							if(Math.min(wilt[i],wilt[ord.get(j)])>= Math.max(bloom[i],bloom[ord.get(j)])){
+								bloom[ord.get(j)]=Math.min(bloom[i],bloom[ord.get(j)]);
+								wilt[ord.get(j)]=Math.max(wilt[i],wilt[ord.get(j)]);
+							}
+						}
+						break;
 					}
 				}
-			if(j==(s-1))
+			if(j==(s-1)){
 				ord.add(i);
+				for(;s>=0;--s){
+							if(Math.min(wilt[i],wilt[ord.get(s)])>= Math.max(bloom[i],bloom[ord.get(s)])){
+								bloom[ord.get(s)]=Math.min(bloom[i],bloom[ord.get(s)]);
+								wilt[ord.get(s)]=Math.max(wilt[i],wilt[ord.get(s)]);
+							}
+						}
+			}
 			}
 		}	
 
 		int [] result=new int[n];
 		for(int i=0;i<n;i++){
-			result[i]=height[ord.get(i)];
+			result[i]=height[ord.get(n-i-1)];
 		}
 		return result;
 	}	
@@ -186,7 +200,7 @@ public class FlowerGarden{
   		int [][] wilt={{365,365,365,365,365},
   						{4,9,14,19,24},
   						{5,10,15,20,25},
-  						{5,10,15,20,25},
+  						{5,10,14,20,25},
   						{2,4,2,4,2,4},
   						{4,3,12,13}};
 		int [][] expected={{ 1,  2,  3,  4,  5 },
